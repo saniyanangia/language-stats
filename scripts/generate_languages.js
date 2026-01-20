@@ -51,17 +51,21 @@ const headers = TOKEN ? { Authorization: `token ${TOKEN}` } : {};
     const svgWidth = 400;
     const barHeight = 12;
     const gap = 6;
+    const textMargin = 80;
+    const barMaxWidth = svgWidth - textMargin;
     let yOffset = 0;
 
     let svg = `<svg width="${svgWidth}" height="${sortedLangs.length * (barHeight + gap)}" xmlns="http://www.w3.org/2000/svg">`;
 
     sortedLangs.forEach(([lang, bytes]) => {
-        const percent = (bytes/totalBytes) * 100;
+        const percent = (bytes / totalBytes) * 100;
         const color = COLORS[lang] || '#ededed';
-        const width = Math.round((percent/100)*svgWidth);
+        const width = Math.round((percent / 100) * barMaxWidth);
         svg += `
             <rect x="0" y="${yOffset}" width="${width}" height="${barHeight}" fill="${color}" rx="4" ry="4"/>
-            <text x="${width + 5}" y="${yOffset + barHeight - 2}" font-family="Arial" font-size="10" fill="#000">${lang} ${percent.toFixed(1)}%</text>
+            <text x="${width + 5}" y="${yOffset + barHeight - 2}" font-family="Arial" font-size="10" fill="#000">
+                ${lang} ${percent.toFixed(1)}%
+            </text>
         `;
         yOffset += barHeight + gap;
     });
