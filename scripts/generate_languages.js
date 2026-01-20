@@ -17,6 +17,11 @@ const COLORS = {
   "Groovy": "#e69f56","MATLAB": "#e16737","Julia": "#a270ba"
 };
 
+const TEXT_COLORS = {
+  light: '#24292f',
+  dark: '#e6edf3'
+};
+
 const USERNAME = process.env.GITHUB_ACTOR;
 const TOKEN = process.env.GITHUB_TOKEN;
 const headers = TOKEN ? { Authorization: `token ${TOKEN}` } : {};
@@ -39,8 +44,8 @@ function countNotebookBytes(nb) {
 async function fetchAllContents(owner, repo, path = '') {
   const url = `https://api.github.com/repos/${owner}/${repo}/contents/${path}`;
   const res = await fetch(url, { headers });
-
   if (!res.ok) return [];
+
   const items = await res.json();
   if (!Array.isArray(items)) return [];
 
@@ -54,6 +59,38 @@ async function fetchAllContents(owner, repo, path = '') {
     }
   }
   return files;
+}
+
+function generateSVG(sortedLangs, totalBytes, textColor) {
+  const svgWidth = 400;
+  const barHeight = 12;
+  const gap = 6;
+  const textMargin = 120;
+  const barMaxWidth = svgWidth - textMargin;
+
+  let yOffset = 0;
+  let svg = `<svg width="${svgWidth}"
+                   height="${sortedLangs.length * (barHeight + gap)}"
+                   xmlns="http://www.w3.org/2000/svg">`;
+
+  for (const [lang, bytes] of sortedLangs) {
+    const percent = (bytes / totalBytes) * 100;
+    const width = Math.round((percent / 100) * barMaxWidth);
+    const color = COLORS[lang] || '#ededed';
+
+    svg += `
+      <rect x="0" y="${yOffset}" width="${width}" height="${barHeight}"
+            fill="${color}" rx="4" ry="4"/>
+      <text x="${width + 6}" y="${yOffset + barHeight - 2}"
+            font-family="Arial" font-size="10"
+            fill="${textColor}">
+        ${lang} ${percent.toFixed(1)}%
+      </text>
+    `;
+    yOffset += barHeight + gap;
+  }
+
+  return svg + '</svg>';
 }
 
 
@@ -86,7 +123,7 @@ async function fetchAllContents(owner, repo, path = '') {
         if (
           file.name.endsWith('.ipynb') &&
           file.download_url &&
-          file.size < 7_000_000 // 7MB limit
+          file.size < 7_000_000
         ) {
           try {
             const raw = await fetch(file.download_url).then(r => r.text());
@@ -108,47 +145,15 @@ async function fetchAllContents(owner, repo, path = '') {
 
   if (!sortedLangs.length) return;
 
+  fs.writeFileSync(
+    'top-languages-light.svg',
+    generateSVG(sortedLangs, totalBytes, TEXT_COLORS.light),
+    'utf8'
+  );
 
-  const svgWidth = 400;
-  const barHeight = 12;
-  const gap = 6;
-  const textMargin = 120;
-  const barMaxWidth = svgWidth - textMargin;
-  let yOffset = 0;
-
-  let svg = `
-  <svg width="${svgWidth}"
-       height="${sortedLangs.length * (barHeight + gap)}"
-       xmlns="http://www.w3.org/2000/svg">
-    <style>
-      :root {
-        --text-color: #24292f;
-        --bg-color: transparent;
-      }
-      svg[data-theme="dark"] {
-        --text-color: #e6edf3;
-      }
-      text {
-        fill: var(--text-color);
-      }
-    </style>
-  `;
-
-  for (const [lang, bytes] of sortedLangs) {
-    const percent = (bytes / totalBytes) * 100;
-    const width = Math.round((percent / 100) * barMaxWidth);
-    const color = COLORS[lang] || '#ededed';
-
-    svg += `
-      <rect x="0" y="${yOffset}" width="${width}" height="${barHeight}" fill="${color}" rx="4" ry="4"/>
-      <text x="${width + 6}" y="${yOffset + barHeight - 2}" font-family="Arial" font-size="10">
-        ${lang} ${percent.toFixed(1)}%
-      </text>
-    `;
-    yOffset += barHeight + gap;
-  }
-
-  svg += '</svg>';
-
-  fs.writeFileSync('top-languages.svg', svg, 'utf8');
+  fs.writeFileSync(
+    'top-languages-dark.svg',
+    generateSVG(sortedLangs, totalBytes, TEXT_COLORS.dark),
+    'utf8'
+  );
 })();
