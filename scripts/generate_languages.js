@@ -21,11 +21,6 @@ const USERNAME = process.env.GITHUB_ACTOR;
 const TOKEN = process.env.GITHUB_TOKEN;
 const headers = TOKEN ? { Authorization: `token ${TOKEN}` } : {};
 
-function bar(percent, color) {
-    const width = Math.round(percent * 2);
-    return `<span style="display:inline-block;background:${color};width:${width}px;height:12px;border-radius:4px;"></span>`;
-}
-
 (async () => {
     let page = 1, repos = [], data;
     do {
@@ -53,21 +48,25 @@ function bar(percent, color) {
 
     if(sortedLangs.length === 0) return;
 
-    let md = `## Top Languages\n\n`;
-    sortedLangs.forEach(([lang, bytes])=>{
-        const percent = ((bytes/totalBytes)*100).toFixed(1);
+    const svgWidth = 400;
+    const barHeight = 12;
+    const gap = 6;
+    let yOffset = 0;
+
+    let svg = `<svg width="${svgWidth}" height="${sortedLangs.length * (barHeight + gap)}" xmlns="http://www.w3.org/2000/svg">`;
+
+    sortedLangs.forEach(([lang, bytes]) => {
+        const percent = (bytes/totalBytes) * 100;
         const color = COLORS[lang] || '#ededed';
-        md += `**${lang}** ${bar(percent, color)} ${percent}%\n`;
+        const width = Math.round((percent/100)*svgWidth);
+        svg += `
+            <rect x="0" y="${yOffset}" width="${width}" height="${barHeight}" fill="${color}" rx="4" ry="4"/>
+            <text x="${width + 5}" y="${yOffset + barHeight - 2}" font-family="Arial" font-size="10" fill="#000">${lang} ${percent.toFixed(1)}%</text>
+        `;
+        yOffset += barHeight + gap;
     });
 
-    const readmePath = 'README.md';
-    let readme = fs.existsSync(readmePath) ? fs.readFileSync(readmePath,'utf8') : '';
-    const sectionRegex = /## Top Languages[\s\S]*?(?=## |$)/;
-    if(sectionRegex.test(readme)){
-        readme = readme.replace(sectionRegex, md);
-    } else {
-        readme += `\n${md}`;
-    }
+    svg += '</svg>';
 
-    fs.writeFileSync(readmePath, readme,'utf8');
+    fs.writeFileSync('top-languages.svg', svg, 'utf8');
 })();
