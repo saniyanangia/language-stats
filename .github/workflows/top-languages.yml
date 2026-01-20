@@ -1,0 +1,39 @@
+name: Update Top Languages
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'
+  workflow_dispatch:
+
+jobs:
+  update-languages:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install node-fetch
+        run: npm install node-fetch@2
+
+      - name: Generate Top Languages
+        run: node scripts/generate_languages.js
+
+      - name: Commit and Push README
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git remote set-url origin https://x-access-token:"${GITHUB_TOKEN}"@github.com/${{ github.repository }}.git
+          git add README.md
+
+          if ! git diff --cached --quiet; then
+            git commit -m "Update Top Languages"
+            git push
+          else
+            echo "No changes to commit"
+          fi
