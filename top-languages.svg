@@ -1,11 +1,11 @@
 <svg width="400" height="180" xmlns="http://www.w3.org/2000/svg">
-            <rect x="0" y="0" width="305" height="12" fill="#F37626" rx="4" ry="4"/>
-            <text x="310" y="10" font-family="Arial" font-size="10" fill="#000">
+            <rect x="0" y="0" width="267" height="12" fill="#F37626" rx="4" ry="4"/>
+            <text x="272" y="10" font-family="Arial" font-size="10" fill="#000">
                 Jupyter Notebook 95.4%
             </text>
         
-            <rect x="0" y="18" width="6" height="12" fill="#4F5D95" rx="4" ry="4"/>
-            <text x="11" y="28" font-family="Arial" font-size="10" fill="#000">
+            <rect x="0" y="18" width="5" height="12" fill="#4F5D95" rx="4" ry="4"/>
+            <text x="10" y="28" font-family="Arial" font-size="10" fill="#000">
                 PHP 1.8%
             </text>
         
@@ -14,8 +14,8 @@
                 R 1.0%
             </text>
         
-            <rect x="0" y="54" width="3" height="12" fill="#b07219" rx="4" ry="4"/>
-            <text x="8" y="64" font-family="Arial" font-size="10" fill="#000">
+            <rect x="0" y="54" width="2" height="12" fill="#b07219" rx="4" ry="4"/>
+            <text x="7" y="64" font-family="Arial" font-size="10" fill="#000">
                 Java 0.8%
             </text>
         
