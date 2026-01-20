@@ -1,0 +1,83 @@
+<svg width="400"
+                   height="180"
+                   xmlns="http://www.w3.org/2000/svg">
+      <rect x="0" y="0" width="169" height="12"
+            fill="#F37626" rx="4" ry="4"/>
+      <text x="175" y="10"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        Jupyter Notebook 60.3%
+      </text>
+    
+      <rect x="0" y="18" width="43" height="12"
+            fill="#4F5D95" rx="4" ry="4"/>
+      <text x="49" y="28"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        PHP 15.3%
+      </text>
+    
+      <rect x="0" y="36" width="24" height="12"
+            fill="#198CE7" rx="4" ry="4"/>
+      <text x="30" y="46"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        R 8.5%
+      </text>
+    
+      <rect x="0" y="54" width="20" height="12"
+            fill="#b07219" rx="4" ry="4"/>
+      <text x="26" y="64"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        Java 7.2%
+      </text>
+    
+      <rect x="0" y="72" width="9" height="12"
+            fill="#563d7c" rx="4" ry="4"/>
+      <text x="15" y="82"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        CSS 3.2%
+      </text>
+    
+      <rect x="0" y="90" width="9" height="12"
+            fill="#f1e05a" rx="4" ry="4"/>
+      <text x="15" y="100"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        JavaScript 3.1%
+      </text>
+    
+      <rect x="0" y="108" width="3" height="12"
+            fill="#3572A5" rx="4" ry="4"/>
+      <text x="9" y="118"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        Python 1.2%
+      </text>
+    
+      <rect x="0" y="126" width="2" height="12"
+            fill="#000080" rx="4" ry="4"/>
+      <text x="8" y="136"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        Hack 0.7%
+      </text>
+    
+      <rect x="0" y="144" width="1" height="12"
+            fill="#e34c26" rx="4" ry="4"/>
+      <text x="7" y="154"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        HTML 0.2%
+      </text>
+    
+      <rect x="0" y="162" width="1" height="12"
+            fill="#0FA0FA" rx="4" ry="4"/>
+      <text x="7" y="172"
+            font-family="Arial" font-size="10"
+            fill="#e6edf3">
+        Prolog 0.2%
+      </text>
+    </svg>
