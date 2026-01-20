@@ -116,7 +116,23 @@ async function fetchAllContents(owner, repo, path = '') {
   const barMaxWidth = svgWidth - textMargin;
   let yOffset = 0;
 
-  let svg = `<svg width="${svgWidth}" height="${sortedLangs.length * (barHeight + gap)}" xmlns="http://www.w3.org/2000/svg">`;
+  let svg = `
+  <svg width="${svgWidth}"
+       height="${sortedLangs.length * (barHeight + gap)}"
+       xmlns="http://www.w3.org/2000/svg">
+    <style>
+      :root {
+        --text-color: #24292f;
+        --bg-color: transparent;
+      }
+      svg[data-theme="dark"] {
+        --text-color: #e6edf3;
+      }
+      text {
+        fill: var(--text-color);
+      }
+    </style>
+  `;
 
   for (const [lang, bytes] of sortedLangs) {
     const percent = (bytes / totalBytes) * 100;
@@ -125,7 +141,7 @@ async function fetchAllContents(owner, repo, path = '') {
 
     svg += `
       <rect x="0" y="${yOffset}" width="${width}" height="${barHeight}" fill="${color}" rx="4" ry="4"/>
-      <text x="${width + 6}" y="${yOffset + barHeight - 2}" font-family="Arial" font-size="10" fill="#000">
+      <text x="${width + 6}" y="${yOffset + barHeight - 2}" font-family="Arial" font-size="10">
         ${lang} ${percent.toFixed(1)}%
       </text>
     `;
