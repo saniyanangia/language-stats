@@ -51,7 +51,7 @@ const headers = TOKEN ? { Authorization: `token ${TOKEN}` } : {};
     const svgWidth = 400;
     const barHeight = 12;
     const gap = 6;
-    const textMargin = 80;
+    const textMargin = 120;
     const barMaxWidth = svgWidth - textMargin;
     let yOffset = 0;
 
